@@ -1,0 +1,20 @@
+INFO 09-07 18:03:25 llm_engine.py:184] Initializing an LLM engine (v0.5.5) with config: model='open-web-math/llemma_7b', speculative_config=None, tokenizer='open-web-math/llemma_7b', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=open-web-math/llemma_7b, use_v2_block_manager=False, enable_prefix_caching=False)
+You are using the default legacy behaviour of the <class 'transformers.models.llama.tokenization_llama_fast.LlamaTokenizerFast'>. This is expected, and simply means that the `legacy` (previous) behavior will be used so nothing changes for you. If you want to use the new behaviour, set `legacy=False`. This should only be set if you understand what it means, and thoroughly read the reason why this was added as explained in https://github.com/huggingface/transformers/pull/24565 - if you loaded a llama tokenizer from a GGUF file you can ignore this message.
+INFO 09-07 18:03:27 model_runner.py:879] Starting to load model open-web-math/llemma_7b...
+INFO 09-07 18:03:28 weight_utils.py:236] Using model weights format ['*.bin']
+Loading pt checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+/home/mylee/anaconda3/envs/nreReProver/lib/python3.10/site-packages/vllm/model_executor/model_loader/weight_utils.py:416: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state = torch.load(bin_file, map_location="cpu")
+Loading pt checkpoint shards:  33% Completed | 1/3 [00:05<00:10,  5.39s/it]
+Loading pt checkpoint shards:  67% Completed | 2/3 [00:12<00:06,  6.64s/it]
+Loading pt checkpoint shards: 100% Completed | 3/3 [00:20<00:00,  6.93s/it]
+Loading pt checkpoint shards: 100% Completed | 3/3 [00:20<00:00,  6.73s/it]
+
+INFO 09-07 18:03:49 model_runner.py:890] Loading model weights took 12.5532 GB
+INFO 09-07 18:03:50 gpu_executor.py:121] # GPU blocks: 1055, # CPU blocks: 512
+INFO 09-07 18:03:52 model_runner.py:1181] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 09-07 18:03:52 model_runner.py:1185] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 09-07 18:04:08 model_runner.py:1300] Graph capturing finished in 16 secs.
+2024-09-07 18:04:10.199 | WARNING  | lean_dojo.data_extraction.lean:__post_init__:568 - LeanGitRepo(url='https://github.com/rah4927/lean-dojo-mew', commit='d00c776260c77de7e70125ef0cd119de6c0ff1de') relies on an unsupported Lean version: nightly-2023-08-19
+Shard size: 0
+0it [00:00, ?it/s]0it [00:00, ?it/s]
