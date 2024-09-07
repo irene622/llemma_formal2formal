@@ -10,6 +10,7 @@ from datetime import datetime
 from lean_dojo import *
 from pathlib import Path
 from tqdm import tqdm, trange
+import os
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
@@ -25,6 +26,7 @@ def generate_vllm(prompt, model, tokenizer, temperatures, num_samples, stop, max
             stop=stop,
         )
         outputs = model.generate([prompt], params, use_tqdm=False)
+        print(outputs)
         if len(outputs) == 0:
             return [], []
         for output in outputs[0].outputs:
@@ -120,7 +122,7 @@ def best_first_search(
     """Best first search."""
     attempt_results = []
     try:
-        with Dojo(theorem, hard_timeout=timeout) as (dojo, init_state):
+        with Dojo(theorem, timeout=timeout) as (dojo, init_state):
             start = time.time()
             proof_finished = False
             queue = [(0.0, [], init_state, [])]
@@ -174,7 +176,7 @@ def best_first_search(
                             heapq.heappush(
                                 queue, (new_score, steps+[step], result, trace+[step_trace])
                             )
-    except (DojoInitError, DojoHardTimeoutError, DojoCrashError, subprocess.CalledProcessError) as e:
+    except (DojoInitError, DojoTacticTimeoutError, DojoCrashError, subprocess.CalledProcessError) as e:
         if len(attempt_results) == 0:
             attempt_results.append({
                 'theorem': theorem.full_name,
@@ -273,7 +275,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--dataset-name',
         default='minif2f-test',
-        choices=['minif2f-valid', 'minif2f-test']
+        choices=['minif2f-valid', 'minif2f-test', 'lean4-minif2f-valid', 'lean4-minif2f-test']
     )
     parser.add_argument('--shard', type=int, required=True)
     parser.add_argument('--resume-from', type=str, default=None)
